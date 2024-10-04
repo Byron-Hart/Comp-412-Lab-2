@@ -483,7 +483,7 @@ def rename():
         #Load
         if currNode.data[0] == (0,0):
             #Defines
-            if not SRtoVR[currNode.data[9]]:
+            if SRtoVR[currNode.data[9]] is not None:
                 print("Not currNode.data[9] %i" % currNode.data[9])
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
@@ -494,7 +494,7 @@ def rename():
             LU[currNode.data[9]] = math.inf
             
             #Uses                
-            if not SRtoVR[currNode.data[1]]:
+            if SRtoVR[currNode.data[1]] is not None:
                 print("Not currNode.data[1] %i" % currNode.data[1])
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
@@ -506,14 +506,14 @@ def rename():
         #Store
         if currNode.data[0] == (0,1):
             #Uses
-            if not SRtoVR[currNode.data[1]]:
+            if SRtoVR[currNode.data[1]] is not None:
                 print("Not currNode.data[1] %i" % currNode.data[1])
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
             currNode.data[2] = SRtoVR[currNode.data[1]]
             currNode.data[4] = LU[currNode.data[1]]
 
-            if not SRtoVR[currNode.data[9]]:
+            if SRtoVR[currNode.data[9]] is not None:
                 print("Not currNode.data[9] %i" % currNode.data[9])
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
@@ -526,7 +526,7 @@ def rename():
         #LoadI
         if currNode.data[0][0] == 1:
             #Defines
-            if not SRtoVR[currNode.data[9]]:
+            if SRtoVR[currNode.data[9]] is not None:
                 print("Not currNode.data[9] %i" % currNode.data[9])
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
@@ -539,7 +539,7 @@ def rename():
         #Arithop
         if currNode.data[0][0] == 2: 
             #Defines
-            if not SRtoVR[currNode.data[9]]:
+            if SRtoVR[currNode.data[9]] is not None:
                 print("Not currNode.data[9] %i" % currNode.data[9])
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
@@ -550,7 +550,7 @@ def rename():
             LU[currNode.data[9]] = math.inf
                 
             #Uses
-            if not SRtoVR[currNode.data[1]]:
+            if SRtoVR[currNode.data[1]] is not None:
                 print("Not currNode.data[1] %i" % currNode.data[1])
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
@@ -559,7 +559,7 @@ def rename():
 
             LU[currNode.data[1]] = idx
             
-            if not SRtoVR[currNode.data[5]]:
+            if SRtoVR[currNode.data[5]] is not None:
                 print("Not currNode.data[5] %i" % currNode.data[5])
                 SRtoVR[currNode.data[5]] = VRName
                 VRName += 1
