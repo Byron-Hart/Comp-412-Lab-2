@@ -476,13 +476,9 @@ def rename():
     SRtoVR = [None] * (maxRegister + 1)
     LU = [math.inf] * (maxRegister + 1)
     VRName = 0
-    
-    print(len(SRtoVR))
-    
+        
     currNode = irHead.prev.prev
     while currNode.data[0][0] != 9:
-        print(currNode.data[1])
-
         #Load
         if currNode.data[0] == (0,1):
             if not SRtoVR[currNode.data[1]]:
@@ -571,7 +567,7 @@ def xmode():
     if success:
         curr = irHead
         while curr.data[0][0] != 9:
-            printIR(curr.data)
+            print(curr.data)
             curr = curr.next
         print(curr.data)
     else:
