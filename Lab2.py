@@ -559,36 +559,36 @@ def rename():
 def printIRwithVR(data, file):
     if data[0][0] == 0:  
         if data[0][1] == 0:
-            print("LOAD r%i INTO r%i\n" % (data[2], data[10]))
-            file.write("LOAD r%i INTO r%i\n" % (data[2], data[10]))
+            print("load r%i => r%i\n" % (data[2], data[10]))
+            file.write("load r%i => r%i\n" % (data[2], data[10]))
         else:
-            print("STORE r%i INTO r%i\n" % (data[2], data[10]))
-            file.write("STORE r%i INTO r%i\n" % (data[2], data[10]))
+            print("store r%i => r%i\n" % (data[2], data[10]))
+            file.write("store r%i => r%i\n" % (data[2], data[10]))
     elif data[0][0] == 1:  
-        print("LOADI %i INTO r%i\n" % (data[1], data[10]))
-        file.write("LOADI %i INTO r%i\n" % (data[1], data[10]))
+        print("loadI %i => r%i\n" % (data[1], data[10]))
+        file.write("loadI %i => r%i\n" % (data[1], data[10]))
     elif data[0][0] == 2:          
         if data[0][1] == 0:  
-            print("ADD r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
-            file.write("ADD r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
+            print("add r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
+            file.write("add r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
         elif data[0][1] == 1:        
-            print("SUB r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
-            file.write("SUB r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
+            print("sub r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
+            file.write("sub r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
         elif data[0][1] == 2:        
-            print("MULT r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
-            file.write("MULT r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
+            print("mult r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
+            file.write("mult r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
         elif data[0][1] == 3:        
-            print("LSHIFT r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
-            file.write("LSHIFT r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
+            print("lshift r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
+            file.write("lshift r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
         else:        
-            print("RSHIFT r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
-            file.write("RSHIFT r%i , r%i INTO r%i\n" % (data[2], data[6], data[10]))
+            print("rshift r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
+            file.write("rshift r%i , r%i => r%i\n" % (data[2], data[6], data[10]))
     elif data[0][0] == 3:
-        print("OUTPUT %i\n" % data[1])  
-        file.write("OUTPUT %i\n" % data[1])          
+        print("output %i\n" % data[1])  
+        file.write("output %i\n" % data[1])          
     elif data[0][0] == 4:
-        print("NOP\n")          
-        file.write("NOP\n")          
+        print("nop\n")          
+        file.write("nop\n")          
     else:
         print("EOF")
     
