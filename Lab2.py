@@ -477,8 +477,11 @@ def rename():
     LU = [math.inf] * maxRegister
     VRName = 0
     
+    print(len(SRtoVR))
+    
     currNode = irHead.prev.prev
     while currNode.data[0][0] != 9:
+        print(currNode.data[1])
         if not SRtoVR[currNode.data[1]]:
             SRtoVR[currNode.data[1]] = VRName
             VRName += 1
