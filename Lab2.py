@@ -480,7 +480,7 @@ def rename():
     currNode = irHead.prev.prev
     while currNode.data[0][0] != 9:
         #Load
-        if currNode.data[0] == (0,1):
+        if currNode.data[0] == (0,0):
             if not SRtoVR[currNode.data[1]]:
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
