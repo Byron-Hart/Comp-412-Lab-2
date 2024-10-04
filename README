@@ -1,0 +1,11 @@
+//NAME: Byron Hart
+//NETID: blh7
+
+Directions for building and invoking:
+Since the program is in Python, it does not need to be built, just run.
+Thus, executing 412alloc simply calls python to run Lab1.py with the command line arguments sent to 412alloc.
+
+Command Line Options for 412alloc:
+-h: Prints a list of valid command line arguments with descriptions of the function of each option.
+-x <name>, where <name> is a valid filepath: If <name> leads to valid ILOC, performs register renaming and prints the result to standard output.
+k <name>, where 3<=k<=64 and <name> is a valid filepath: If <name> leads to valid ILOC, allocates input to k registers and printsthe result to standard output.
