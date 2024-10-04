@@ -473,8 +473,6 @@ def rename():
             maxRegister = currNode.data[9]
         currNode = currNode.next
     
-    print(maxRegister)
-    
     SRtoVR = [None] * (maxRegister + 1)
     LU = [math.inf] * (maxRegister + 1)
     VRName = 0
@@ -486,6 +484,7 @@ def rename():
         if currNode.data[0] == (0,0):
             #Defines
             if not SRtoVR[currNode.data[9]]:
+                print("Not currNode.data[9] %i" % currNode.data[9])
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
             currNode.data[10] = SRtoVR[currNode.data[9]]
@@ -496,6 +495,7 @@ def rename():
             
             #Uses                
             if not SRtoVR[currNode.data[1]]:
+                print("Not currNode.data[1] %i" % currNode.data[1])
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
             currNode.data[2] = SRtoVR[currNode.data[1]]
@@ -507,12 +507,14 @@ def rename():
         if currNode.data[0] == (0,1):
             #Uses
             if not SRtoVR[currNode.data[1]]:
+                print("Not currNode.data[1] %i" % currNode.data[1])
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
             currNode.data[2] = SRtoVR[currNode.data[1]]
             currNode.data[4] = LU[currNode.data[1]]
 
             if not SRtoVR[currNode.data[9]]:
+                print("Not currNode.data[9] %i" % currNode.data[9])
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
             currNode.data[10] = SRtoVR[currNode.data[9]]
@@ -525,6 +527,7 @@ def rename():
         if currNode.data[0][0] == 1:
             #Defines
             if not SRtoVR[currNode.data[9]]:
+                print("Not currNode.data[9] %i" % currNode.data[9])
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
             currNode.data[10] = SRtoVR[currNode.data[9]]
@@ -537,6 +540,7 @@ def rename():
         if currNode.data[0][0] == 2: 
             #Defines
             if not SRtoVR[currNode.data[9]]:
+                print("Not currNode.data[9] %i" % currNode.data[9])
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
             currNode.data[10] = SRtoVR[currNode.data[9]]
@@ -547,6 +551,7 @@ def rename():
                 
             #Uses
             if not SRtoVR[currNode.data[1]]:
+                print("Not currNode.data[1] %i" % currNode.data[1])
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
             currNode.data[2] = SRtoVR[currNode.data[1]]
@@ -555,6 +560,7 @@ def rename():
             LU[currNode.data[1]] = idx
             
             if not SRtoVR[currNode.data[5]]:
+                print("Not currNode.data[5] %i" % currNode.data[5])
                 SRtoVR[currNode.data[5]] = VRName
                 VRName += 1
             currNode.data[6] = SRtoVR[currNode.data[5]]
