@@ -471,6 +471,7 @@ def rename():
             maxRegister = currNode.data[5]
         if currNode.data[9] and currNode.data[9] > maxRegister:
             maxRegister = currNode.data[9]
+        currNode = currNode.next
     
     SRtoVR = [None] * maxRegister
     LU = [math.inf] * maxRegister
@@ -517,6 +518,7 @@ def rename():
             LU[currNode.data[9]] = idx
             
         idx -= 1
+        currNode = currNode.next
 
 
             
