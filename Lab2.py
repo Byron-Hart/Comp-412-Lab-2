@@ -465,7 +465,7 @@ def rename():
     currNode = irHead
     while currNode.data[0][0] != 9:
         idx += 1
-        if currNode.data[1] and currNode.data[1] > maxRegister:
+        if currNode.data[1] and currNode.data[0][0] != 1 and currNode.data[0][0] != 3 and currNode.data[1] > maxRegister:
             maxRegister = currNode.data[1]
         if currNode.data[5] and currNode.data[5] > maxRegister:
             maxRegister = currNode.data[5]
