@@ -556,7 +556,7 @@ def rename():
             LU[currNode.data[9]] = idx
             
         idx -= 1
-        currNode = currNode.next
+        currNode = currNode.prev
     
 def xmode():
     global irHead, success
