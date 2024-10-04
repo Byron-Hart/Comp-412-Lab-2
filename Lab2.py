@@ -482,13 +482,34 @@ def rename():
     currNode = irHead.prev.prev
     while currNode.data[0][0] != 9:
         print(currNode.data[1])
-        if not SRtoVR[currNode.data[1]]:
-            SRtoVR[currNode.data[1]] = VRName
-            VRName += 1
-        currNode.data[2] = SRtoVR[currNode.data[1]]
-        currNode.data[4] = LU[currNode.data[1]]
 
+        #Load
         if currNode.data[0] == (0,1):
+            if not SRtoVR[currNode.data[1]]:
+                SRtoVR[currNode.data[1]] = VRName
+                VRName += 1
+            currNode.data[2] = SRtoVR[currNode.data[1]]
+            currNode.data[4] = LU[currNode.data[1]]
+
+            SRtoVR[currNode.data[1]] = None
+            LU[currNode.data[1]] = math.inf
+                            
+            if not SRtoVR[currNode.data[9]]:
+                SRtoVR[currNode.data[9]] = VRName
+                VRName += 1
+            currNode.data[10] = SRtoVR[currNode.data[9]]
+            currNode.data[12] = LU[currNode.data[9]]
+            
+            LU[currNode.data[9]] = idx
+
+        #Store
+        if currNode.data[0] == (0,1):
+            if not SRtoVR[currNode.data[1]]:
+                SRtoVR[currNode.data[1]] = VRName
+                VRName += 1
+            currNode.data[2] = SRtoVR[currNode.data[1]]
+            currNode.data[4] = LU[currNode.data[1]]
+
             if not SRtoVR[currNode.data[9]]:
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
@@ -498,19 +519,35 @@ def rename():
             LU[currNode.data[1]] = idx
             LU[currNode.data[9]] = idx
 
-        else:           
+        #LoadI
+        if currNode.data[0][0] == 1:
+            if not SRtoVR[currNode.data[9]]:
+                SRtoVR[currNode.data[9]] = VRName
+                VRName += 1
+            currNode.data[10] = SRtoVR[currNode.data[9]]
+            currNode.data[12] = LU[currNode.data[9]]
+            
+            LU[currNode.data[9]] = idx
+
+        #Arithop
+        if currNode.data[0][0] == 2:          
+            if not SRtoVR[currNode.data[1]]:
+                SRtoVR[currNode.data[1]] = VRName
+                VRName += 1
+            currNode.data[2] = SRtoVR[currNode.data[1]]
+            currNode.data[4] = LU[currNode.data[1]]
+
             SRtoVR[currNode.data[1]] = None
             LU[currNode.data[1]] = math.inf
             
-            if currNode.data[5]:
-                if not SRtoVR[currNode.data[5]]:
-                    SRtoVR[currNode.data[5]] = VRName
-                    VRName += 1
-                currNode.data[6] = SRtoVR[currNode.data[5]]
-                currNode.data[8] = LU[currNode.data[5]]
-                
-                SRtoVR[currNode.data[5]] = None
-                LU[currNode.data[5]] = math.inf
+            if not SRtoVR[currNode.data[5]]:
+                SRtoVR[currNode.data[5]] = VRName
+                VRName += 1
+            currNode.data[6] = SRtoVR[currNode.data[5]]
+            currNode.data[8] = LU[currNode.data[5]]
+            
+            SRtoVR[currNode.data[5]] = None
+            LU[currNode.data[5]] = math.inf
                 
             if not SRtoVR[currNode.data[9]]:
                 SRtoVR[currNode.data[9]] = VRName
