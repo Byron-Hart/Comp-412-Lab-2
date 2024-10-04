@@ -478,7 +478,9 @@ def rename():
     VRName = 0
         
     currNode = irHead.prev.prev
+    print(currNode.data[0][0])
     while currNode.data[0][0] != 9:
+        print(currNode.data[0][0])
         #Load
         if currNode.data[0] == (0,1):
             if not SRtoVR[currNode.data[1]]:
@@ -555,9 +557,6 @@ def rename():
             
         idx -= 1
         currNode = currNode.next
-
-
-            
     
 def xmode():
     global irHead, success
