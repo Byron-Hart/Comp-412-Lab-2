@@ -556,27 +556,36 @@ def rename():
         idx -= 1
         currNode = currNode.prev
 
-def printIRwithVR(data):
+def printIRwithVR(data, file):
     if data[0][0] == 0:  
         if data[0][1] == 0:
             print("LOAD r%i INTO r%i" % (data[2], data[10]))
+            file.write("LOAD r%i INTO r%i" % (data[2], data[10]))
         else:
             print("STORE r%i INTO r%i" % (data[2], data[10]))
+            file.write("STORE r%i INTO r%i" % (data[2], data[10]))
     elif data[0][0] == 1:  
         print("LOADI %i INTO r%i" % (data[1], data[10]))
+        file.write("LOADI %i INTO r%i" % (data[1], data[10]))
     elif data[0][0] == 2:          
         if data[0][1] == 0:  
             print("ADD r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+            file.write("ADD r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
         elif data[0][1] == 1:        
             print("SUB r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+            file.write("SUB r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
         elif data[0][1] == 2:        
             print("MULT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+            file.write("MULT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
         elif data[0][1] == 3:        
             print("LSHIFT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+            file.write("LSHIFT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
         else:        
             print("RSHIFT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+            file.write("RSHIFT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
     elif data[0][0] == 3:
-        print("OUTPUT %i" % data[1])          
+        print("OUTPUT %i" % data[1])  
+        file.write        
     elif data[0][0] == 4:
         print("NOP")          
     else:
@@ -589,10 +598,12 @@ def xmode():
     
     if success:
         rename()
+        file = open("renamedILOC.i", "w")
         curr = irHead
         while curr.data[0][0] != 9:
-            printIRwithVR(curr.data)
+            printIRwithVR(curr.data, file)
             curr = curr.next
+        file.close()
     else:
         print_error("Since there were errors in the input file, IR is not printed.")
         
