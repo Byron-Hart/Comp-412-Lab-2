@@ -478,9 +478,7 @@ def rename():
     VRName = 0
         
     currNode = irHead.prev.prev
-    print(currNode.data[0][0])
     while currNode.data[0][0] != 9:
-        print(currNode.data[0][0])
         #Load
         if currNode.data[0] == (0,1):
             if not SRtoVR[currNode.data[1]]:
@@ -557,18 +555,44 @@ def rename():
             
         idx -= 1
         currNode = currNode.prev
+
+def printIRwithVR(data):
+    if data[0][0] == 0:  
+        if data[0][1] == 0:
+            print("LOAD r%i INTO r%i" % (data[2], data[10]))
+        else:
+            print("STORE r%i INTO r%i" % (data[2], data[10]))
+    elif data[0][0] == 1:  
+        print("LOADI %i INTO r%i" % (data[1], data[10]))
+    elif data[0][0] == 2:          
+        if data[0][1] == 0:  
+            print("ADD r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+        elif data[0][1] == 1:        
+            print("SUB r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+        elif data[0][1] == 2:        
+            print("MULT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+        elif data[0][1] == 3:        
+            print("LSHIFT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+        else:        
+            print("RSHIFT r%i , r%i INTO r%i" % (data[2], data[6], data[10]))
+    elif data[0][0] == 3:
+        print("OUTPUT %i" % data[1])          
+    elif data[0][0] == 4:
+        print("NOP")          
+    else:
+        print("EOF")
     
+
 def xmode():
     global irHead, success
     parse()
-    rename()
     
     if success:
+        rename()
         curr = irHead
         while curr.data[0][0] != 9:
-            print(curr.data)
+            printIRwithVR(curr.data)
             curr = curr.next
-        print(curr.data)
     else:
         print_error("Since there were errors in the input file, IR is not printed.")
         
