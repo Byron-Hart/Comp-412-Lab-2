@@ -473,6 +473,8 @@ def rename():
             maxRegister = currNode.data[9]
         currNode = currNode.next
     
+    print(maxRegister)
+    
     SRtoVR = [None] * (maxRegister + 1)
     LU = [math.inf] * (maxRegister + 1)
     VRName = 0
