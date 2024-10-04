@@ -524,13 +524,14 @@ def rename():
 def xmode():
     global irHead, success
     parse()
+    rename()
     
     if success:
         curr = irHead
         while curr.data[0][0] != 9:
             printIR(curr.data)
             curr = curr.next
-        printIR(curr.data)
+        print(curr.data)
     else:
         print_error("Since there were errors in the input file, IR is not printed.")
         
