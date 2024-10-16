@@ -595,6 +595,7 @@ def getapr(currNode, vrloc):
             break
         
     if pr == math.inf:  
+        print("Spill")
         #Find PR to spill
         maxNU = 0
         maxNUPR = 0
@@ -637,8 +638,8 @@ def getapr(currNode, vrloc):
 
 def restore(currNode, vrloc):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
-    
-    print("HIIII")    
+       
+    print("In Restore")
     if VRtoSpillLoc[currNode.data[vrloc]] is not None:     
         print("Restore")
         #Create loadi and load ir blocks
@@ -741,14 +742,14 @@ def allocate(k):
                 currNode.data[11] = getapr(currNode, 10)
                 
         currNode = currNode.next
-    print("VRtoPR")
-    print(VRtoPR)
-    print("PRtoVR")
-    print(PRtoVR)
-    print("PRNU")
-    print(PRNU)
-    print("VRtoSpillLoc")
-    print(VRtoSpillLoc)
+        print("VRtoPR")
+        print(VRtoPR)
+        print("PRtoVR")
+        print(PRtoVR)
+        print("PRNU")
+        print(PRNU)
+        print("VRtoSpillLoc")
+        print(VRtoSpillLoc)
 
     
 def printIRwithVR(data, file):
