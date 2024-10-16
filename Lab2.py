@@ -610,8 +610,8 @@ def getapr(currNode, vrloc):
         print("Max NU register: %i" %(maxNUPR))
         print()
 
-        freeapr(maxNUPR)        
         VRtoSpillLoc[PRtoVR[maxNUPR]] = memLoc
+        freeapr(maxNUPR)        
         
         #Create loadi and store ir blocks
         loadidata = [(1,0), memLoc, memLoc, memLoc, None, None, None, None, None, None, None, len(PRtoVR), currNode.data[vrloc+2]]
