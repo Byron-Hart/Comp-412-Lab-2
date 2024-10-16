@@ -927,4 +927,4 @@ else:
         print_error("ERROR: If using no flags, the first argument must be an integer of value 3<=k<=64.")
     else:
         if initializeFile(sys.argv[2]):
-            kmode(int(sys.argx[1]))
+            kmode(int(sys.argv[1]))
