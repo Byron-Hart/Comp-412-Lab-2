@@ -632,7 +632,8 @@ def getapr(currNode, vrloc):
 def restore(currNode, vrloc):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
     
-    if VRtoSpillLoc[currNode.data[vrloc]] is not None:            
+    if VRtoSpillLoc[currNode.data[vrloc]] is not None:     
+        print("Restore")
         #Create loadi and load ir blocks
         loadidata = [(1,0), VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], math.inf, None, None, None, None, None, None, len(PRtoVR)+1, currNode.lineNum]
         loadi = IRnode(loadidata)
