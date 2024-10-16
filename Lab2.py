@@ -686,6 +686,7 @@ def allocate(k):
                 currNode.data[3] = VRtoPR[currNode.data[2]]
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
+                print("Freeing 1")
                 freeapr(currNode.data[3])
                 
             #Defines
@@ -708,9 +709,11 @@ def allocate(k):
                 currNode.data[11] = VRtoPR[currNode.data[10]]
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
+                print("Freeing 2")
                 freeapr(currNode.data[3])
 
             if currNode.data[12] == math.inf and PRtoVR[currNode.data[11]] is not None:
+                print("Freeing 3")
                 freeapr(currNode.data[11])
          
         #LoadI
@@ -735,9 +738,11 @@ def allocate(k):
                 currNode.data[7] = VRtoPR[currNode.data[6]]
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
+                print("Freeing 4")
                 freeapr(currNode.data[3])
 
             if currNode.data[8] == math.inf and PRtoVR[currNode.data[7]] is not None:
+                print("Freeing 5")
                 freeapr(currNode.data[7])
 
             #Defines
