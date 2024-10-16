@@ -577,7 +577,7 @@ def rename():
         if live > maxLive:
             maxLive = live
         
-    maxVR = VRName - 1
+    maxVR = VRName
 
 def freeapr(pr):
     global VRtoPR, PRtoVR, PRNU
