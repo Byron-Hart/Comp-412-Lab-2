@@ -625,6 +625,8 @@ def getapr(currNode, vrloc):
     VRtoPR[currNode.data[vrloc]] = pr
     PRtoVR[pr] = currNode.data[vrloc]
     PRNU[pr] = currNode.data[vrloc+2]
+    
+    return pr
 
 def restore(currNode, vrloc):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
