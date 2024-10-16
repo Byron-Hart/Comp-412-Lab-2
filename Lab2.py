@@ -719,6 +719,8 @@ def allocate(k):
                 restore(currNode, 6)
             else:
                 currNode.data[7] = VRtoPR[currNode.data[6]]
+            
+            print(currNode.data[7])
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
                 freeapr(currNode.data[3])
