@@ -650,10 +650,10 @@ def restore(currNode, vrloc):
         if memLoc >= 32992:
             print("Restore")
         #Create loadi and load ir blocks
-        loadidata = [(1,0), VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], math.inf, None, None, None, None, None, None, len(PRtoVR)+1, currNode.lineNum]
+        loadidata = [(1,0), VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], math.inf, None, None, None, None, None, None, len(PRtoVR), currNode.lineNum]
         loadi = IRnode(loadidata)
     
-        loaddata = [(0,0), None, None, len(PRtoVR)+1, math.inf, None, None, None, None, None, None, currNode.data[vrloc+1], currNode.lineNum]
+        loaddata = [(0,0), None, None, len(PRtoVR), math.inf, None, None, None, None, None, None, currNode.data[vrloc+1], currNode.lineNum]
         load = IRnode(loaddata)
      
         #Insert loadi and load
