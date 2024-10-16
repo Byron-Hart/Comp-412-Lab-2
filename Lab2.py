@@ -595,7 +595,7 @@ def getapr(currNode, vrloc):
             break
         
     if pr == math.inf:  
-        print("Spill")
+        #print("Spill")
         #Find PR to spill
         maxNU = 0
         maxNUPR = 0
