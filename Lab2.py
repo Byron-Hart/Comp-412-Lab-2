@@ -733,7 +733,15 @@ def allocate(k):
                 currNode.data[11] = getapr(currNode, 10)
                 
         currNode = currNode.next
-    
+    print("VRtoPR")
+    print(VRtoPR)
+    print("PRtoVR")
+    print(PRtoVR)
+    print("PRNU")
+    print(PRNU)
+    print("VRtoSpillLoc")
+    print(VRtoSpillLoc)
+
     
 def printIRwithVR(data, file):
     if data[0][0] == 0:  
