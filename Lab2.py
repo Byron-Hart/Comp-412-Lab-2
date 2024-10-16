@@ -689,7 +689,7 @@ def allocate(k):
                 restore(currNode, 2)
             else:
                 currNode.data[3] = VRtoPR[currNode.data[2]]
-                PRNU[currNode.data[3]] = currNode.data[4]
+                #PRNU[currNode.data[3]] = currNode.data[4]
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
                 if memLoc >= 32992:
@@ -708,14 +708,14 @@ def allocate(k):
                 restore(currNode, 2)
             else:
                 currNode.data[3] = VRtoPR[currNode.data[2]]
-                PRNU[currNode.data[3]] = currNode.data[4]
+                #PRNU[currNode.data[3]] = currNode.data[4]
 
             if VRtoPR[currNode.data[10]] is None:
                 currNode.data[11] = getapr(currNode, 10)
                 restore(currNode, 10)
             else:
                 currNode.data[11] = VRtoPR[currNode.data[10]]
-                PRNU[currNode.data[11]] = currNode.data[12]
+                #PRNU[currNode.data[11]] = currNode.data[12]
                
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
                 if memLoc >= 32992:
@@ -741,14 +741,14 @@ def allocate(k):
                 restore(currNode, 2)
             else:
                 currNode.data[3] = VRtoPR[currNode.data[2]]
-                PRNU[currNode.data[3]] = currNode.data[4]
+                #PRNU[currNode.data[3]] = currNode.data[4]
 
             if VRtoPR[currNode.data[6]] is None:
                 currNode.data[7] = getapr(currNode, 6)
                 restore(currNode, 6)
             else:
                 currNode.data[7] = VRtoPR[currNode.data[6]]
-                PRNU[currNode.data[7]] = currNode.data[8]
+                #PRNU[currNode.data[7]] = currNode.data[8]
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
                 if memLoc >= 32992:
