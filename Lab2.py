@@ -718,7 +718,7 @@ def allocate(k):
                 currNode.data[7] = getapr(currNode, 6)
                 restore(currNode, 6)
             else:
-                currNode.data[3] = VRtoPR[currNode.data[2]]
+                currNode.data[7] = VRtoPR[currNode.data[6]]
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
                 freeapr(currNode.data[3])
