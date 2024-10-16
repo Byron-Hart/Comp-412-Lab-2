@@ -587,12 +587,13 @@ def freeapr(pr):
     
 def getapr(currNode, vrloc):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
-    
     pr = math.inf
     #Return free PR if it exists
     for i in range(len(PRtoVR)):
         if PRtoVR[i] is None:
             pr = i
+            break
+        
     if pr == math.inf:  
         #Find PR to spill
         maxNU = 0
