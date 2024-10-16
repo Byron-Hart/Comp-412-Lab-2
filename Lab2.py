@@ -773,6 +773,7 @@ def allocate(k):
             print(PRNU)
             print("VRtoSpillLoc")
             print(VRtoSpillLoc)
+            printIRwithPRnofile(currNode.data)
             print()
         currNode = currNode.next
 
@@ -849,6 +850,32 @@ def printIRwithPR(data, file):
     else:
         print("EOF")
 
+def printIRwithPRnofile(data):
+    if data[0][0] == 0:  
+        if data[0][1] == 0:
+            print("load r%i => r%i\n" % (data[3], data[11]))
+        else:
+            print("store r%i => r%i\n" % (data[3], data[11]))
+    elif data[0][0] == 1:  
+        print("loadI %i => r%i\n" % (data[1], data[11]))
+    elif data[0][0] == 2:          
+        if data[0][1] == 0:  
+            print("add r%i , r%i => r%i\n" % (data[3], data[7], data[11]))
+        elif data[0][1] == 1:        
+            print("sub r%i , r%i => r%i\n" % (data[3], data[7], data[11]))
+        elif data[0][1] == 2:        
+            print("mult r%i , r%i => r%i\n" % (data[3], data[7], data[11]))
+        elif data[0][1] == 3:        
+            print("lshift r%i , r%i => r%i\n" % (data[3], data[7], data[11]))
+        else:        
+            print("rshift r%i , r%i => r%i\n" % (data[3], data[7], data[11]))
+    elif data[0][0] == 3:
+        print("output %i\n" % data[1])  
+    elif data[0][0] == 4:
+        print("nop\n")          
+    else:
+        print("EOF")
+        
 def xmode():
     global irHead, success
     parse()
