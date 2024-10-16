@@ -459,6 +459,7 @@ def printIR(data):
         print("EOF")
 
 def rename():
+    global maxVR, maxLive
     maxRegister = 0
     idx = 0 
     
@@ -476,7 +477,8 @@ def rename():
     SRtoVR = [None] * (maxRegister + 1)
     LU = [math.inf] * (maxRegister + 1)
     VRName = 0
-        
+    live = 0
+    
     currNode = irHead.prev.prev
     while currNode.data[0][0] != 9:
         #Load
@@ -485,6 +487,8 @@ def rename():
             if SRtoVR[currNode.data[9]] is None:
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
+            else:
+                live -= 1
             currNode.data[10] = SRtoVR[currNode.data[9]]
             currNode.data[12] = LU[currNode.data[9]]
             
@@ -495,6 +499,7 @@ def rename():
             if SRtoVR[currNode.data[1]] is None:
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
+                live += 1
             currNode.data[2] = SRtoVR[currNode.data[1]]
             currNode.data[4] = LU[currNode.data[1]]
 
@@ -506,12 +511,14 @@ def rename():
             if SRtoVR[currNode.data[1]] is None:
                 SRtoVR[currNode.data[1]] = VRName
                 VRName += 1
+                live += 1
             currNode.data[2] = SRtoVR[currNode.data[1]]
             currNode.data[4] = LU[currNode.data[1]]
 
             if SRtoVR[currNode.data[9]] is None:
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
+                live += 1
             currNode.data[10] = SRtoVR[currNode.data[9]]
             currNode.data[12] = LU[currNode.data[9]]
             
@@ -524,6 +531,8 @@ def rename():
             if SRtoVR[currNode.data[9]] is None:
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
+            else:
+                live -= 1
             currNode.data[10] = SRtoVR[currNode.data[9]]
             currNode.data[12] = LU[currNode.data[9]]
             
@@ -536,6 +545,8 @@ def rename():
             if SRtoVR[currNode.data[9]] is None:
                 SRtoVR[currNode.data[9]] = VRName
                 VRName += 1
+            else:
+                live -= 1
             currNode.data[10] = SRtoVR[currNode.data[9]]
             currNode.data[12] = LU[currNode.data[9]]
             
@@ -545,7 +556,8 @@ def rename():
             #Uses
             if SRtoVR[currNode.data[1]] is None:
                 SRtoVR[currNode.data[1]] = VRName
-                VRName += 1
+                VRName += 1 
+                live += 1
             currNode.data[2] = SRtoVR[currNode.data[1]]
             currNode.data[4] = LU[currNode.data[1]]
 
@@ -554,6 +566,7 @@ def rename():
             if SRtoVR[currNode.data[5]] is None:
                 SRtoVR[currNode.data[5]] = VRName
                 VRName += 1
+                live += 1
             currNode.data[6] = SRtoVR[currNode.data[5]]
             currNode.data[8] = LU[currNode.data[5]]
             
@@ -561,7 +574,165 @@ def rename():
             
         idx -= 1
         currNode = currNode.prev
+        if live > MaxLive:
+            MaxLive = live
+        
+    maxVR = VRName - 1
 
+def freeapr(pr):
+    global VRtoPR, PRtoVR, PRNU
+    VRtoPR[PRtoVR[maxNUPR]] = None
+    PRtoVR[maxNUPR] = None
+    PRNU[maxNUPR] = None
+    
+def getapr(currNode, vrloc):
+    global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
+    
+    pr = math.inf
+    #Return free PR if it exists
+    for i in range(len(PRtoVR)):
+        if PRtoVR[i] is None:
+            pr = i
+    if pr == math.inf:  
+        #Find PR to spill
+        maxNU = 0
+        maxNUPR = 0
+        for i in range(len(PRNU)):
+            if PRNU[i] > maxNU:
+                maxNU = PRNU[i]
+                maxNUPR = i
+        VRtoSpillLoc[PRtoVR[maxNUPR]] = memLoc
+        
+        #Create loadi and store ir blocks
+        loadidata = [(1,0), None, memLoc, memLoc, None, None, None, None, None, None, None, len(PRtoVR)+1, currNode.data[vrloc+2]]
+        loadi = IRnode(loadidata)
+    
+        storedata = [(0,1), None, PRtoVR[maxNUPR], maxNUPR, None, None, None, None, None, None, None, len(PRtoVR)+1, math.inf]
+        store = IRnode(storedata)
+    
+        #Insert loadi and store
+        loadi.prev = currNode.prev
+        loadi.next = store
+        store.prev = loadi
+        store.next = currNode
+        currNode.prev.next = loadi
+        currNode.prev = store
+    
+        memLoc += 4
+        
+        pr = maxNUPR
+    
+    VRtoPR[currNode.data[vr]] = pr
+    PRtoVR[pr] = currNode.data[vr]
+    PRNU[pr] = currNode.data[vr+2]
+
+def restore(currNode, vrloc):
+    global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
+    
+    if VRtoSpillLoc[currNode.data[vrloc]] is not None:            
+        #Create loadi and load ir blocks
+        loadidata = [(1,0), None, VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], math.inf, None, None, None, None, None, None, len(PRtoVR)+1, currNode.lineNum]
+        loadi = IRnode(loadidata)
+    
+        loaddata = [(0,0), None, None, len(PRtoVR)+1, math.inf, None, None, None, None, None, None, currNode.data[vrloc+1], currNode.lineNum]
+        load = IRnode(loaddata)
+     
+        #Insert loadi and load
+        loadi.prev = currNode.prev
+        loadi.next = load
+        load.prev = loadi
+        load.next = currNode
+        currNode.prev.next = loadi
+        currNode.prev = load
+    
+        #Free VRtoSpillLoc
+        VRtoSpillLoc[currNode.data[vrloc]] = None
+        
+def allocate(k):
+    global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU
+    VRtoPR = [None] * maxVR
+    VRtoSpillLoc = [None] * maxVR
+    if MaxLive <= k:        
+        PRtoVR = [None] * k
+        PRNU = [None] * k
+    else:
+        PRtoVR = [None] * (k - 1)
+        PRNU = [None] * (k - 1)
+        
+    
+    currNode = irHead
+    while currNode.data[0][0] != 9:
+        #Load
+        if currNode.data[0] == (0,0):            
+            #Uses                
+            if VRtoPR[currNode.data[2]] is None:
+                currNode.data[3] = getapr(currNode, 2)
+                restore(currNode, 2)
+            else:
+                currNode.data[3] = VRtoPR[currNode.data[2]]
+                
+            if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
+                freeapr(currNode.data[3])
+                
+            #Defines
+            if VRtoPR[currNode.data[10]] is None:
+                currNode.data[11] = getapr(currNode, 10)
+ 
+        #Store
+        if currNode.data[0] == (0,1):
+            #Uses                
+            if VRtoPR[currNode.data[2]] is None:
+                currNode.data[3] = getapr(currNode, 2)
+                restore(currNode, 2)
+            else:
+                currNode.data[3] = VRtoPR[currNode.data[2]]
+
+            if VRtoPR[currNode.data[10]] is None:
+                currNode.data[11] = getapr(currNode, 10)
+                restore(currNode, 10)
+            else:
+                currNode.data[3] = VRtoPR[currNode.data[2]]
+                
+            if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
+                freeapr(currNode.data[3])
+
+            if currNode.data[12] == math.inf and PRtoVR[currNode.data[11]] is not None:
+                freeapr(currNode.data[11])
+         
+        #LoadI
+        if currNode.data[0][0] == 1:
+            #Defines
+            if VRtoPR[currNode.data[10]] is None:
+                currNode.data[11] = getapr(currNode, 10)
+
+        #Arithop
+        if currNode.data[0][0] == 2: 
+            #Uses
+            if VRtoPR[currNode.data[2]] is None:
+                currNode.data[3] = getapr(currNode, 2)
+                restore(currNode, 2)
+            else:
+                currNode.data[3] = VRtoPR[currNode.data[2]]
+
+            if VRtoPR[currNode.data[6]] is None:
+                currNode.data[7] = getapr(currNode, 6)
+                restore(currNode, 6)
+            else:
+                currNode.data[3] = VRtoPR[currNode.data[2]]
+                
+            if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
+                freeapr(currNode.data[3])
+
+            if currNode.data[8] == math.inf and PRtoVR[currNode.data[7]] is not None:
+                freeapr(currNode.data[7])
+
+            #Defines
+            if VRtoPR[currNode.data[10]] is None:
+                currNode.data[11] = getapr(currNode, 10)
+                
+        currNode = currNode.next
+    
+    
 def printIRwithVR(data, file):
     if data[0][0] == 0:  
         if data[0][1] == 0:
@@ -614,7 +785,7 @@ def xmode():
     else:
         print_error("Since there were errors in the input file, IR is not printed.")
         
-def kmode():
+def kmode(k):
     global success, operations
     parse()
     
@@ -660,6 +831,10 @@ def initializeFile(ilocFilePath):
         return False
 
 #OpCode=0, SR1=1,  VR1=2,  PR1=3,  NU1=4,  SR2,  VR2,  PR2,  NU2,  SR3,  VR3,  PR3,  NU3 
+maxLive = 0
+maxVR = 0
+memLoc = 32768
+VRtoPR, PRtoVR, VRtoSpillLoc, PRNU = (None,)*4
 irHead = None
 ilocFile = ""
 lineNum = 0
