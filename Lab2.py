@@ -652,7 +652,6 @@ def restore(currNode, vrloc):
         
 def allocate(k):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU
-    print(maxLive)
     VRtoPR = [None] * maxVR
     VRtoSpillLoc = [None] * maxVR
     if maxLive <= k:        
@@ -661,10 +660,7 @@ def allocate(k):
     else:
         PRtoVR = [None] * (k - 1)
         PRNU = [None] * (k - 1)
-        
-    print(k)
-    print(len(PRtoVR))    
-    
+            
     currNode = irHead
     while currNode.data[0][0] != 9:
         #Load
