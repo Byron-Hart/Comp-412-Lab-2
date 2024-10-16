@@ -604,7 +604,7 @@ def getapr(currNode, vrloc):
         VRtoSpillLoc[PRtoVR[maxNUPR]] = memLoc
         
         #Create loadi and store ir blocks
-        loadidata = [(1,0), None, memLoc, memLoc, None, None, None, None, None, None, None, len(PRtoVR)+1, currNode.data[vrloc+2]]
+        loadidata = [(1,0), memLoc, memLoc, memLoc, None, None, None, None, None, None, None, len(PRtoVR)+1, currNode.data[vrloc+2]]
         loadi = IRnode(loadidata)
     
         storedata = [(0,1), None, PRtoVR[maxNUPR], maxNUPR, None, None, None, None, None, None, None, len(PRtoVR)+1, math.inf]
@@ -633,7 +633,7 @@ def restore(currNode, vrloc):
     
     if VRtoSpillLoc[currNode.data[vrloc]] is not None:            
         #Create loadi and load ir blocks
-        loadidata = [(1,0), None, VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], math.inf, None, None, None, None, None, None, len(PRtoVR)+1, currNode.lineNum]
+        loadidata = [(1,0), VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], math.inf, None, None, None, None, None, None, len(PRtoVR)+1, currNode.lineNum]
         loadi = IRnode(loadidata)
     
         loaddata = [(0,0), None, None, len(PRtoVR)+1, math.inf, None, None, None, None, None, None, currNode.data[vrloc+1], currNode.lineNum]
