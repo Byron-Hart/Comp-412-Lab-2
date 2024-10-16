@@ -605,10 +605,10 @@ def getapr(currNode, vrloc):
         VRtoSpillLoc[PRtoVR[maxNUPR]] = memLoc
         
         #Create loadi and store ir blocks
-        loadidata = [(1,0), memLoc, memLoc, memLoc, None, None, None, None, None, None, None, len(PRtoVR)+1, currNode.data[vrloc+2]]
+        loadidata = [(1,0), memLoc, memLoc, memLoc, None, None, None, None, None, None, None, len(PRtoVR), currNode.data[vrloc+2]]
         loadi = IRnode(loadidata)
     
-        storedata = [(0,1), None, PRtoVR[maxNUPR], maxNUPR, None, None, None, None, None, None, None, len(PRtoVR)+1, math.inf]
+        storedata = [(0,1), None, PRtoVR[maxNUPR], maxNUPR, None, None, None, None, None, None, None, len(PRtoVR), math.inf]
         store = IRnode(storedata)
     
         #Insert loadi and store
