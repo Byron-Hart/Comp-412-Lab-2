@@ -574,16 +574,16 @@ def rename():
             
         idx -= 1
         currNode = currNode.prev
-        if live > MaxLive:
-            MaxLive = live
+        if live > maxLive:
+            maxLive = live
         
     maxVR = VRName - 1
 
 def freeapr(pr):
     global VRtoPR, PRtoVR, PRNU
-    VRtoPR[PRtoVR[maxNUPR]] = None
-    PRtoVR[maxNUPR] = None
-    PRNU[maxNUPR] = None
+    VRtoPR[PRtoVR[pr]] = None
+    PRtoVR[pr] = None
+    PRNU[pr] = None
     
 def getapr(currNode, vrloc):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
@@ -622,9 +622,9 @@ def getapr(currNode, vrloc):
         
         pr = maxNUPR
     
-    VRtoPR[currNode.data[vr]] = pr
-    PRtoVR[pr] = currNode.data[vr]
-    PRNU[pr] = currNode.data[vr+2]
+    VRtoPR[currNode.data[vrloc]] = pr
+    PRtoVR[pr] = currNode.data[vrloc]
+    PRNU[pr] = currNode.data[vrloc+2]
 
 def restore(currNode, vrloc):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
@@ -652,7 +652,7 @@ def allocate(k):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU
     VRtoPR = [None] * maxVR
     VRtoSpillLoc = [None] * maxVR
-    if MaxLive <= k:        
+    if maxLive <= k:        
         PRtoVR = [None] * k
         PRNU = [None] * k
     else:
@@ -769,6 +769,41 @@ def printIRwithVR(data, file):
     else:
         print("EOF")
     
+def printIRwithPR(data, file):
+    if data[0][0] == 0:  
+        if data[0][1] == 0:
+            print("load r%i => r%i\n" % (data[3], data[11]))
+            file.write("load r%i => r%i\n" % (data[3], data[11]))
+        else:
+            print("store r%i => r%i\n" % (data[3], data[11]))
+            file.write("store r%i => r%i\n" % (data[3], data[11]))
+    elif data[0][0] == 1:  
+        print("loadI %i => r%i\n" % (data[1], data[11]))
+        file.write("loadI %i => r%i\n" % (data[1], data[11]))
+    elif data[0][0] == 2:          
+        if data[0][1] == 0:  
+            print("add r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+            file.write("add r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+        elif data[0][1] == 1:        
+            print("sub r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+            file.write("sub r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+        elif data[0][1] == 2:        
+            print("mult r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+            file.write("mult r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+        elif data[0][1] == 3:        
+            print("lshift r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+            file.write("lshift r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+        else:        
+            print("rshift r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+            file.write("rshift r%i , r%i => r%i\n" % (data[3], data[7], data[10]))
+    elif data[0][0] == 3:
+        print("output %i\n" % data[1])  
+        file.write("output %i\n" % data[1])          
+    elif data[0][0] == 4:
+        print("nop\n")          
+        file.write("nop\n")          
+    else:
+        print("EOF")
 
 def xmode():
     global irHead, success
@@ -790,9 +825,16 @@ def kmode(k):
     parse()
     
     if success:
-        print_error("Parse succeeded. Processed %i operations." % operations)
+        rename()
+        allocate(k)
+        file = open("allocatedILOC.i", "w")
+        curr = irHead
+        while curr.data[0][0] != 9:
+            printIRwithPR(curr.data, file)
+            curr = curr.next
+        file.close()
     else:
-        print_error("Parse found errors.")
+        print_error("Since there were errors in the input file, IR is not printed.")
 
 def print_error(*args):
      print(*args, file=sys.stderr)
