@@ -602,6 +602,12 @@ def getapr(currNode, vrloc):
             if PRNU[i] > maxNU:
                 maxNU = PRNU[i]
                 maxNUPR = i
+        print("PRtoVR")
+        print(PRtoVR)
+        print("PRNU")
+        print(PRNU)
+        print("Max NU register: %i" %(maxNUPR))
+        
         VRtoSpillLoc[PRtoVR[maxNUPR]] = memLoc
         
         #Create loadi and store ir blocks
@@ -631,10 +637,7 @@ def getapr(currNode, vrloc):
 
 def restore(currNode, vrloc):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
-    
-    print(currNode.data[vrloc])
-    print(VRtoSpillLoc[currNode.data[vrloc]])
-    
+        
     if VRtoSpillLoc[currNode.data[vrloc]] is not None:     
         print("Restore")
         #Create loadi and load ir blocks
