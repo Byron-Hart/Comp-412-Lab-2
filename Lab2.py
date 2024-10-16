@@ -669,7 +669,7 @@ def restore(currNode, vrloc):
         
 def allocate(k):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU
-    print(maxLive)
+    #print(maxLive)
     VRtoPR = [None] * maxVR
     VRtoSpillLoc = [None] * maxVR
     if maxLive <= k:        
