@@ -662,6 +662,8 @@ def allocate(k):
         PRtoVR = [None] * (k - 1)
         PRNU = [None] * (k - 1)
         
+    print(k)
+    print(len(PRtoVR))    
     
     currNode = irHead
     while currNode.data[0][0] != 9:
