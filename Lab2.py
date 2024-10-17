@@ -595,8 +595,8 @@ def getapr(currNode, vrloc, dontspill):
             break
         
     if pr == math.inf:
-        if memLoc >= 0:
-            print("Spill")
+        """if memLoc >= 0:
+            print("Spill")"""
         #Find PR to spill
         maxNU = 0
         maxNUPR = 0
@@ -604,13 +604,13 @@ def getapr(currNode, vrloc, dontspill):
             if PRNU[i] > maxNU and i != dontspill:
                 maxNU = PRNU[i]
                 maxNUPR = i
-        if memLoc >= 0:
+        """if memLoc >= 0:
             print("PRtoVR")
             print(PRtoVR)
             print("PRNU")
             print(PRNU)
             print("Max NU register: %i" %(maxNUPR))
-            print()
+            print()"""
 
         VRtoSpillLoc[PRtoVR[maxNUPR]] = memLoc
         freeapr(maxNUPR)        
@@ -643,12 +643,12 @@ def getapr(currNode, vrloc, dontspill):
 def restore(currNode, vrloc):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
     
-    if memLoc >= 0:
+    """if memLoc >= 0:
         print("In Restore")
-        print()
+        print()"""
     if VRtoSpillLoc[currNode.data[vrloc]] is not None:  
-        if memLoc >= 0:
-            print("Restore")
+        """if memLoc >= 0:
+            print("Restore")"""
         #Create loadi and load ir blocks
         loadidata = [(1,0), VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], VRtoSpillLoc[currNode.data[vrloc]], math.inf, None, None, None, None, None, None, currNode.data[vrloc+1], currNode.lineNum]
         loadi = IRnode(loadidata)
@@ -692,7 +692,7 @@ def allocate(k):
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
                 freeapr(currNode.data[3])
-                print("Freeing PR: %i" %currNode.data[3])
+                #print("Freeing PR: %i" %currNode.data[3])
                 
             #Defines
             if VRtoPR[currNode.data[10]] is None:
@@ -715,11 +715,11 @@ def allocate(k):
                
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
                 freeapr(currNode.data[3])
-                print("Freeing PR: %i" %currNode.data[3])
+                #print("Freeing PR: %i" %currNode.data[3])
 
             if currNode.data[12] == math.inf and PRtoVR[currNode.data[11]] is not None:
                 freeapr(currNode.data[11])
-                print("Freeing PR: %i" %currNode.data[11])
+                #print("Freeing PR: %i" %currNode.data[11])
          
         #LoadI
         if currNode.data[0][0] == 1:
@@ -744,17 +744,17 @@ def allocate(k):
                 
             if currNode.data[4] == math.inf and PRtoVR[currNode.data[3]] is not None:
                 freeapr(currNode.data[3])
-                print("Freeing PR: %i" %currNode.data[3])
+                #print("Freeing PR: %i" %currNode.data[3])
 
             if currNode.data[8] == math.inf and PRtoVR[currNode.data[7]] is not None:
                 freeapr(currNode.data[7])
-                print("Freeing PR: %i" %currNode.data[7])
+                #print("Freeing PR: %i" %currNode.data[7])
 
             #Defines
             if VRtoPR[currNode.data[10]] is None:
                 currNode.data[11] = getapr(currNode, 10, None)
         
-        if memLoc >= 0:
+        """if memLoc >= 0:
             print("PRtoVR")
             print(PRtoVR)
             print("PRNU")
@@ -762,7 +762,7 @@ def allocate(k):
             print("VRtoSpillLoc")
             print(VRtoSpillLoc)
             printIRwithPRnofile(currNode.data)
-            print()
+            print()"""
         currNode = currNode.next
 
     
