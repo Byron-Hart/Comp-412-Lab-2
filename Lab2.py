@@ -585,7 +585,7 @@ def freeapr(pr):
     PRtoVR[pr] = None
     PRNU[pr] = None
     
-def getapr(currNode, vrloc):
+def getapr(currNode, vrloc, dontspill):
     global VRtoPR, PRtoVR, VRtoSpillLoc, PRNU, memLoc
     pr = math.inf
     #Return free PR if it exists
@@ -601,7 +601,7 @@ def getapr(currNode, vrloc):
         maxNU = 0
         maxNUPR = 0
         for i in range(len(PRNU)):
-            if PRNU[i] > maxNU:
+            if PRNU[i] > maxNU and i != dontspill:
                 maxNU = PRNU[i]
                 maxNUPR = i
         if memLoc >= 0:
@@ -685,7 +685,7 @@ def allocate(k):
         if currNode.data[0] == (0,0):            
             #Uses                
             if VRtoPR[currNode.data[2]] is None:
-                currNode.data[3] = getapr(currNode, 2)
+                currNode.data[3] = getapr(currNode, 2, None)
                 restore(currNode, 2)
             else:
                 currNode.data[3] = VRtoPR[currNode.data[2]]
@@ -696,19 +696,19 @@ def allocate(k):
                 
             #Defines
             if VRtoPR[currNode.data[10]] is None:
-                currNode.data[11] = getapr(currNode, 10)
+                currNode.data[11] = getapr(currNode, 10, None)
  
         #Store
         if currNode.data[0] == (0,1):
             #Uses                
             if VRtoPR[currNode.data[2]] is None:
-                currNode.data[3] = getapr(currNode, 2)
+                currNode.data[3] = getapr(currNode, 2, None)
                 restore(currNode, 2)
             else:
                 currNode.data[3] = VRtoPR[currNode.data[2]]
 
             if VRtoPR[currNode.data[10]] is None:
-                currNode.data[11] = getapr(currNode, 10)
+                currNode.data[11] = getapr(currNode, 10, currNode.data[3])
                 restore(currNode, 10)
             else:
                 currNode.data[11] = VRtoPR[currNode.data[10]]
@@ -725,19 +725,19 @@ def allocate(k):
         if currNode.data[0][0] == 1:
             #Defines
             if VRtoPR[currNode.data[10]] is None:
-                currNode.data[11] = getapr(currNode, 10)
+                currNode.data[11] = getapr(currNode, 10, None)
 
         #Arithop
         if currNode.data[0][0] == 2: 
             #Uses
             if VRtoPR[currNode.data[2]] is None:
-                currNode.data[3] = getapr(currNode, 2)
+                currNode.data[3] = getapr(currNode, 2, None)
                 restore(currNode, 2)
             else:
                 currNode.data[3] = VRtoPR[currNode.data[2]]
 
             if VRtoPR[currNode.data[6]] is None:
-                currNode.data[7] = getapr(currNode, 6)
+                currNode.data[7] = getapr(currNode, 6, currNode.data[3])
                 restore(currNode, 6)
             else:
                 currNode.data[7] = VRtoPR[currNode.data[6]]
@@ -752,7 +752,7 @@ def allocate(k):
 
             #Defines
             if VRtoPR[currNode.data[10]] is None:
-                currNode.data[11] = getapr(currNode, 10)
+                currNode.data[11] = getapr(currNode, 10, None)
         
         if memLoc >= 0:
             print("PRtoVR")
